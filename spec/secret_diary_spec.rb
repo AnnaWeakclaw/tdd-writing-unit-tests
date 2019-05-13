@@ -1,4 +1,4 @@
-require_relative '../lib/secret_diary'
+require_relative "../lib/secret_diary"
 
 ### WARNING ###
 # For the purposes of this exercise, you are testing after
@@ -18,15 +18,34 @@ require_relative '../lib/secret_diary'
 ### WARNING ###
 
 RSpec.describe SecretDiary do
-  context "when locked" do
-    pending "refuses to be read"
+  it "when locked refuses to be read" do
+    fakeDiary = double("Diary")
+    secretDiary = SecretDiary.new(fakeDiary)
 
-    pending "refuses to be written"
+    secretDiary.lock
+    expect(secretDiary.read).to eq("Go away!")
   end
 
-  context "when unlocked" do
-    pending "gets read"
+  it "when locked refuses to be written" do
+    fakeDiary = double("Diary")
+    secretDiary = SecretDiary.new(fakeDiary)
+    secretDiary.lock
+    expect(secretDiary.write("New message")).to eq("Go away!")
+  end
 
-    pending "gets written"
+  it "when unlocked gets read" do
+    fakeDiary = double("Diary")
+    allow(fakeDiary).to receive (:read)
+    secretDiary = SecretDiary.new(fakeDiary)
+    secretDiary.unlock
+    expect(secretDiary.read).to eq(fakeDiary.read)
+  end
+
+  it "when unlocked gets written" do
+    fakeDiary = double("Diary")
+    allow(fakeDiary).to receive (:write)
+    secretDiary = SecretDiary.new(fakeDiary)
+    secretDiary.unlock
+    expect(secretDiary.write("New message")).to eq(fakeDiary.write("Message"))
   end
 end
