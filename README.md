@@ -2,7 +2,7 @@
 
 ## Quickstart
 
-Clone, then:
+Clone to learn about unit tests then:
 
 ```bash
 $ bundle install
